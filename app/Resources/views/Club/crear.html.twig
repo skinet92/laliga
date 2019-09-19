@@ -1,0 +1,89 @@
+{% extends 'frontend.html.twig' %}
+{% from 'javascripts.html.twig' import validator as validator_js %}
+
+{% block body %}
+    {{ parent() }}
+
+    {% block content %}
+        <section class="content margin-top-30">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 text-center" id="section-title">
+                        <h3>
+                            Agregar Club
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <form action="{{ path('club_new') }}" method="post" id="frm-club" novalidate enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            {{ form_label(form.nombre,'Nombre') }}
+                            {{ form_widget(form.nombre, {'attr': {'class': 'form-control','placeholder':'Introducir el nombre del club '}}) }}
+                            <div class="help-block">{{ form_errors(form.nombre) }}</div>
+                        </div>
+
+                        <div class="col-xs-6">
+                            {{ form_label(form.presupuesto,'Presupuesto') }}
+                            {{ form_widget(form.presupuesto, {'attr': {'class': 'form-control','placeholder':'Introducir el presupuesto del club '}}) }}
+                            <div class="help-block">{{ form_errors(form.presupuesto) }}</div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            {{ form_label(form.escudo,'Escudo') }}
+                            {{ form_widget(form.escudo, {'attr': {'class': 'form-control','placeholder':'Introducir el escudo del club'}}) }}
+                            <div class="help-block">{{ form_errors(form.escudo) }}</div>
+                        </div>
+                    </div>
+                    {{ form_rest(form) }}
+                   {# {{ form_fields(form) }}#}
+
+                    <div class="row margin-top-30">
+                        <div class="col-xs-3 col-sm-offset-9 col-sm-1">
+                            <button type="submit" class="btn btn-primary hvr-underline-from-left" value="Enviar">
+                                <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span> Enviar
+                            </button>
+                        </div>
+                        <div class="col-xs-3 col-sm-1" style="margin-left: 2em">
+                            <a role="button" class="btn btn-default hvr-underline-from-right " href="{{back }}">
+                                <i class="glyphicon glyphicon-floppy-remove"></i> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    {% endblock %}
+
+    {% block page_javascripts %}
+        {{ parent() }}
+
+
+        {#  <script>
+              $(document).ready(function () {
+                  $(".select").select2({
+                      theme: "bootstrap",
+                      width: "100%",
+                      placeholder: "--Selecciona--"
+                  });
+
+                  $("#frm-provincia").validate({
+                      rules:{
+                          'provincia[nombre]':{
+                              required: true
+                          }
+                          },
+                      messages:{
+                          'cargo[nombrecargo]': "Este campo es requerido"
+                      }
+              });
+          });
+
+          </script>#}
+    {% endblock %}
+
+{% endblock %}

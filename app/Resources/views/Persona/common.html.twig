@@ -1,0 +1,51 @@
+{% macro form_fields(form) %}
+    <div class="row">
+        <div class="col-xs-6">
+            {{ form_label(form.nombre,'Nombre') }}
+            {{ form_widget(form.nombre, {'attr': {'class': 'form-control','placeholder':'Introducir el nombre de la persona '}}) }}
+            <div class="help-block">{{ form_errors(form.nombre) }}</div>
+        </div>
+
+        <div class="col-xs-6">
+            {{ form_label(form.dni,'DNI') }}
+            {{ form_widget(form.dni, {'attr': {'class': 'form-control','placeholder':'Introducir el dni '}}) }}
+            <div class="help-block">{{ form_errors(form.dni) }}</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            {{ form_label(form.fechanacimiento,'Fecha de nacimiento') }}
+            {{ form_widget(form.fechanacimiento, {'attr': {'class': 'form-control'}}) }}
+            <div class="help-block">{{ form_errors(form.fechanacimiento) }}</div>
+        </div>
+
+        <div class="col-xs-6">
+            {{ form_label(form.email,'Email') }}
+            {{ form_widget(form.email, {'attr': {'class': 'form-control','placeholder':'Introducir el email '}}) }}
+            <div class="help-block">{{ form_errors(form.email) }}</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            {{ form_label(form.salario,'Salario') }}
+            {{ form_widget(form.salario, {'attr': {'class': 'form-control','placeholder':'Introducir el salario '}}) }}
+            <div class="help-block">{{ form_errors(form.salario) }}</div>
+        </div>
+
+        <div class="col-xs-6" >
+            {{ form_label(form.club,'Club') }}
+            {{ form_widget(form.club, {'attr': {'class': 'form-control'}}) }}
+            <div class="help-block">{{ form_errors(form.club) }}</div>
+        </div>
+
+    </div>
+
+
+    {{ form_rest(form) }}
+{% endmacro %}
+
+{% macro form_js(form) %}
+
+{% endmacro %}

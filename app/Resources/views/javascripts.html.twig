@@ -1,0 +1,247 @@
+{% macro datatables() %}
+<script type="text/javascript">
+
+    function initializeDatatable($table, options) {
+        var language = {
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Mostrar _MENU_ registros",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "Ningún dato disponible en esta tabla",
+            "sInfo":           "Mostrando del _START_ al _END_ (de _TOTAL_)",
+            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Buscar:",
+            "sUrl":            "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        };
+
+        var datatable = $($table).DataTable($.extend({}, {
+            dom: '<"row"' +
+            '<"col-xs-12"r><"col-xs-12 col-sm-6 text-right">>' +
+            '<"row"<"col-xs-12"t>>' +
+            '<"row margin-top-30 "<"col-xs-12 col-sm-3"l>' +
+            '<"col-xs-12 col-sm-3"i>' +
+            '<"col-xs-12 col-sm-6 text-rigth"p>>',
+            responsive: true,
+            language: language,
+            serverSide: false,
+            sPaginationType: 'full'
+        }, options));
+
+        if ($('div a.link-delete').length > 0) {
+            $('div a.link-delete').on('click', function(event) {
+                event.preventDefault();
+
+                var $cbx = $('table.data-table input:checkbox:checked');
+                if ($cbx.length === 0) {
+                    fnAlert('Debe seleccionar registros para esta operación', 'Error', 'error');
+                    return;
+                }
+
+                if (!confirm('Se eliminarán los registros seleccionados. ¿Desea continuar?')) {
+                    return;
+                }
+
+                $.ajax($(this).attr('href'), {
+                    data: $cbx.serializeArray(),
+                    dataType: 'json',
+                    method: 'POST',
+                    success: function(json) {
+                        var $table = $('table.data-table');
+                        $table.DataTable().ajax.reload();
+                    }
+                }, $table);
+            });
+        }
+
+        return datatable;
+    }
+</script>
+{% endmacro %}
+
+{% macro alerts() %}
+<div class="modal fade" id="modalAlert" tabindex="-1" role="dialog" aria-labelledby="alert-modal-label" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="alert-modal-label">Modal title</h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Close' | trans }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function fnAlert( messege,title, type) {
+        var icon = 'ok-sign';
+        var alertClass = 'succcess';
+        if (type === 'error') {
+            icon = 'exclamation-sign';
+            alertClass = 'danger';
+        }
+        var $bodyContent = $('<div/>').addClass('alert alert-' + alertClass).append($('<span/>').addClass('glyphicon glyphicon-' + icon)).append('&nbsp;' + message).appendTo($('#modalAlert .modal-body').empty());
+        $('#modalAlert .modal-header h4').text(title);
+        $('#modalAlert').modal();
+    }
+</script>
+{% endmacro %}
+
+{% macro form_collection_handler(containerSelector, linkAddSelector, onAddItem) %}
+<script src="{{ asset('bundles/app/plugins/jquery.form.js') }}"></script>
+{#<script type="text/javascript">#}
+    {#function collectionHandler(options) {#}
+        {#var fOptions = $.extend({}, {#}
+            {#onAddItem: null,#}
+            {#onDeleteItem: null#}
+        {#}, options);#}
+
+        {#if (fOptions.container.data('collection-handler')) {#}
+            {#return fOptions.container.data('collection-handler');#}
+        {#}#}
+
+        {#this.container = fOptions.container;#}
+        {#this.prototype = fOptions.container.data('prototype');#}
+        {#this.container.data('index', this.container.find('.item').length);#}
+        {#this.container.data('collection-handler', this);#}
+
+        {#this.onClickDeleteItem = function(event) {#}
+            {#event.preventDefault();#}
+            {#if (confirm('El elemento será eliminado. ¿Desea continuar?')) {#}
+                {#$(this).parents('.item:first').fadeOut(300, function() {#}
+                    {#$(this).remove();#}
+                {#});#}
+            {#}#}
+            {#if (fOptions.onClickDeleteItem) {#}
+                {#fOptions.onClickDeleteItem();#}
+            {#}#}
+        {#}#}
+        {#this.onClickAddItem = function(event) {#}
+            {#event.preventDefault();#}
+            {#var $container = $(this).data('collection-container');#}
+            {#var prototype = $container.data('prototype');#}
+            {#var index = $container.data('index');#}
+            {#var $newItem = $(prototype.replace(/__name__/g, index)).hide();#}
+            {#$newItem.find('a.link-delete').on('click', $container.data('collection-handler').onClickDeleteItem);#}
+            {#$container.data('index', index + 1);#}
+
+            {#$container.prepend($newItem);#}
+            {#$newItem.fadeIn(1000);#}
+
+            {#if (fOptions.onAddItem) {#}
+                {#fOptions.onAddItem($newItem);#}
+            {#}#}
+        {#}#}
+
+        {#this.container.find('.item a.link-delete').on('click', this.onClickDeleteItem);#}
+        {#fOptions.linkAddItem.data('collection-container', this.container);#}
+        {#fOptions.linkAddItem.on('click', this.onClickAddItem);#}
+
+        {#return this;#}
+    {#}#}
+
+    {#$.extend($.fn, collectionHandler);#}
+
+    {#{% if containerSelector | default(false) %}#}
+    {#$(document).ready(function() {#}
+        {#new collectionHandler({#}
+            {#container: $('{{ containerSelector }}'),#}
+            {#linkAddItem: $('{{ linkAddSelector }}'),#}
+            {#onAddItem: {{ onAddItem | default(false) ? onAddItem : 'null' }}#}
+        {#});#}
+    {#});#}
+    {#{% endif %}#}
+{#</script>#}
+{% endmacro %}
+
+
+{% macro validator() %}
+
+
+<script type="text/javascript">
+
+</script>
+{% endmacro %}
+{% macro collection() %}
+    <script src="{{ asset('assets/vendor/symfony-collection/jquery.collection.js') }}"></script>
+    <script type="text/javascript">
+
+        function initializeCollection(c, options) {
+            return $(c).collection($.extend({}, {
+                min: 1,
+                init_with_n_elements: 1,
+                allow_duplicate: false,
+                add_at_the_end: true,
+                add: '<a href="#" class="btn btn-default" title="{{ "glob.add" | trans }}"><i class="fa fa-plus"></i></a>'
+            }, options || {}));
+        }
+
+    </script>
+{% endmacro %}
+
+{#{% macro validator() %}
+    <script src="{{ asset('bundles/tooltipster-master/js/jquery.tooltipster.min.js') }}"></script>
+    <script type="text/javascript">
+
+        $(".select").select2({
+            theme: "bootstrap",
+            width: "100%"
+        });
+
+        $('.ip_address').mask('0ZZ.0ZZ.0ZZ.0ZZ', {
+            translation: {
+                'Z': {
+                    pattern: /[0-9]/, optional: true
+                }
+            }
+        });
+
+        function initializeValidator($form, options) {
+            return $($form).validate($.extend({}, {
+                errorElement: 'em',
+                errorClass: 'error'
+            }, options || {}));
+        }
+
+        $(document).ready(function() {
+            $.validator.defaults.errorPlacement = function(error, element) {
+                if (!element.data('tooltipster-ns')) {
+                    element.tooltipster({
+                        trigger: 'custom',
+                        onlyOne: false,
+                        position: 'bottom-left',
+                        positionTracker: true,
+                        theme: 'tooltipster-punk'
+                    });
+                }
+                element.tooltipster('update', $(error).text());
+                element.tooltipster('show');
+            }
+            $.validator.defaults.success = function(label, element) {
+                $(element).tooltipster('hide');
+            }
+
+            $.validator.addMethod("validpassword", function(value, element, param) {
+                if (this.optional(element)) {
+                    return true;
+                }
+
+                return /^[0-9a-z]+$/g.test(value);
+            }, "Por favor, escribe una contraseña que cumpla los criterios definidos");
+        });
+    </script>
+{% endmacro %}#}

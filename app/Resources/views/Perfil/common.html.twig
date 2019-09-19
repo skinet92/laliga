@@ -1,0 +1,20 @@
+{% macro form_fields(form) %}
+    <div class="row">
+        <div class="col-xs-12">
+            {{ form_label(form.nombre,'Nombre') }}
+            {{ form_widget(form.nombre, {'attr': {'class': 'form-control','placeholder':'Introducir el nombre del perfil '}}) }}
+            <div class="help-block">{{ form_errors(form.nombre) }}</div>
+        </div>
+    </div>
+    {{ form_rest(form) }}
+{% endmacro %}
+
+{% macro form_js(form) %}
+    {#<script type="text/javascript">
+        $(document).ready(function() {
+            $('form#frm-mascara').validate({
+                errorElement: 'em'
+            });
+        });
+    </script>#}
+{% endmacro %}

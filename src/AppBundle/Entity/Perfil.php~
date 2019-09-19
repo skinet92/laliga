@@ -1,0 +1,34 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Perfil
+ *
+ * @ORM\Table(name="perfil")
+ * @ORM\Entity
+ */
+class Perfil
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idperfil", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="perfil_idperfil_seq", allocationSize=1, initialValue=1)
+     */
+    private $idperfil;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=50, nullable=true)
+     */
+    private $nombre;
+
+
+}
+

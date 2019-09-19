@@ -1,0 +1,85 @@
+{% extends 'frontend.html.twig' %}
+{% from 'Persona/common.html.twig' import form_fields, form_js %}
+{% from 'javascripts.html.twig' import validator as validator_js %}
+
+{% block body %}
+    {{ parent() }}
+
+    {% block content %}
+        <section class="content margin-top-30">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 text-center" id="section-title">
+                        <h3>
+                            Editar Persona
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <form action="{{ path('persona_edit',{'id': persona.idpersona}) }}" method="post" id="frm-persona">
+                    <div class="row">
+                        <div class="col-xs-6" >
+                            {{ form_label(form.perfil,'Perfil') }}
+                            {{ form_widget(form.perfil, {'attr': {'class': 'form-control','id': 'perfill'}}) }}
+                            <div class="help-block">{{ form_errors(form.perfil) }}</div>
+                        </div>
+
+                        <div class="col-xs-6" id="posicion" {#style="display: none"#}>
+                            {{ form_label(form.posicion,'Posición') }}
+                            {{ form_widget(form.posicion, {'attr': {'class': 'form-control ','id': 'posicionn'}}) }}
+                            <div class="help-block">{{ form_errors(form.posicion) }}</div>
+                        </div>
+
+                    </div>
+                    {{ form_fields(form) }}
+
+                    <div class="row margin-top-30">
+                        <div class="col-xs-3 col-sm-offset-9 col-sm-1">
+                            <button type="submit" class="btn btn-primary hvr-underline-from-left" value="Enviar">
+                                <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span> Enviar
+                            </button>
+                        </div>
+                        <div class="col-xs-3 col-sm-1" style="margin-left: 2em">
+                            <a role="button" class="btn btn-default hvr-underline-from-right " href="{{ path(back) }}">
+                                <i class="glyphicon glyphicon-floppy-remove"></i> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    {% endblock %}
+
+    {% block page_javascripts %}
+        {{ parent() }}
+
+        <script>
+            $(document).ready(function () {
+                $(".select").select2({
+                    theme: "bootstrap",
+                    width: "100%",
+                    placeholder: "--Selecciona--"
+                });
+                $('#persona_fechanacimiento').datetimepicker({
+                    //disabledHours: null,
+                    format: 'DD/MM/YYYY'
+                });
+
+                /* $("#frm-provincia").validate({
+                     rules:{
+                         'provincia[nombre]':{
+                             required: true
+                         }
+                         },
+                     messages:{
+                         'cargo[nombrecargo]': "Este campo es requerido"
+                     }
+             });*/
+            });
+
+        </script>
+
+    {% endblock %}
+
+{% endblock %}

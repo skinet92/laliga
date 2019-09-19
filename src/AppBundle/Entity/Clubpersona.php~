@@ -1,0 +1,47 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Clubpersona
+ *
+ * @ORM\Table(name="clubpersona", indexes={@ORM\Index(name="Ref16", columns={"club"}), @ORM\Index(name="Ref27", columns={"persona"})})
+ * @ORM\Entity
+ */
+class Clubpersona
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idclubpersona", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="clubpersona_idclubpersona_seq", allocationSize=1, initialValue=1)
+     */
+    private $idclubpersona;
+
+    /**
+     * @var \Club
+     *
+     * @ORM\ManyToOne(targetEntity="Club")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="club", referencedColumnName="idclub")
+     * })
+     */
+    private $club;
+
+    /**
+     * @var \Persona
+     *
+     * @ORM\ManyToOne(targetEntity="Persona")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="persona", referencedColumnName="idpersona")
+     * })
+     */
+    private $persona;
+
+
+}
+

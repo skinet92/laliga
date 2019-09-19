@@ -1,0 +1,48 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Club
+ *
+ * @ORM\Table(name="club")
+ * @ORM\Entity
+ */
+class Club
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idclub", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="club_idclub_seq", allocationSize=1, initialValue=1)
+     */
+    private $idclub;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=50, nullable=true)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="escudo", type="string", length=100, nullable=true)
+     */
+    private $escudo;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="presupuesto", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $presupuesto;
+
+
+}
+

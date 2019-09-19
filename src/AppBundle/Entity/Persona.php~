@@ -1,0 +1,92 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Persona
+ *
+ * @ORM\Table(name="persona", indexes={@ORM\Index(name="Ref42", columns={"posicion"}), @ORM\Index(name="Ref31", columns={"perfil"}), @ORM\Index(name="Ref19", columns={"club"})})
+ * @ORM\Entity
+ */
+class Persona
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idpersona", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="persona_idpersona_seq", allocationSize=1, initialValue=1)
+     */
+    private $idpersona;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=50, nullable=true)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dni", type="string", length=9, nullable=true)
+     */
+    private $dni;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fechanacimiento", type="date", nullable=true)
+     */
+    private $fechanacimiento;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=100, nullable=true)
+     */
+    private $email;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="salario", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $salario;
+
+    /**
+     * @var \Perfil
+     *
+     * @ORM\ManyToOne(targetEntity="Perfil")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="perfil", referencedColumnName="idperfil")
+     * })
+     */
+    private $perfil;
+
+    /**
+     * @var \Posicionjugador
+     *
+     * @ORM\ManyToOne(targetEntity="Posicionjugador")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="posicion", referencedColumnName="idposicion")
+     * })
+     */
+    private $posicion;
+
+    /**
+     * @var \Club
+     *
+     * @ORM\ManyToOne(targetEntity="Club")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="club", referencedColumnName="idclub")
+     * })
+     */
+    private $club;
+
+
+}
+

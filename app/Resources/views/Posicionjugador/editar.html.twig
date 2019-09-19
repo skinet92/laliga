@@ -1,0 +1,44 @@
+{% extends 'frontend.html.twig' %}
+{% from 'Posicionjugador/common.html.twig' import form_fields, form_js %}
+{% from 'javascripts.html.twig' import validator as validator_js %}
+
+{% block body %}
+    {{ parent() }}
+
+    {% block content %}
+        <section class="content margin-top-30">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 text-center" id="section-title">
+                        <h3>
+                            Editar Posición
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <form action="{{ path('posicionjugador_edit',{'id': posicionjugador.idposicion}) }}" method="post" id="frm-posicionjugador">
+                    {{ form_fields(form) }}
+
+                    <div class="row margin-top-30">
+                        <div class="col-xs-3 col-sm-offset-9 col-sm-1">
+                            <button type="submit" class="btn btn-primary hvr-underline-from-left" value="Enviar">
+                                <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span> Enviar
+                            </button>
+                        </div>
+                        <div class="col-xs-3 col-sm-1" style="margin-left: 2em">
+                            <a role="button" class="btn btn-default hvr-underline-from-right " href="{{ path(back) }}">
+                                <i class="glyphicon glyphicon-floppy-remove"></i> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    {% endblock %}
+
+    {% block page_javascripts %}
+        {{ parent() }}
+    {% endblock %}
+
+{% endblock %}
