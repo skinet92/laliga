@@ -58,7 +58,6 @@ class Persona
 
     /**
      * @var float
-     * @Assert\NotNull(message="Este campo no puede estar vacio")
      * @Assert\Regex(pattern="/^[0-9.]+$/", message = "Este campo permite solo números mayores o igual a 0.")
      * @ORM\Column(name="salario", type="float", precision=10, scale=0, nullable=true)
      */
@@ -69,7 +68,7 @@ class Persona
      * @Assert\NotNull(message="Este campo no puede estar vacio")
      * @ORM\ManyToOne(targetEntity="Perfil")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="perfil", referencedColumnName="idperfil")
+     * @ORM\JoinColumn(name="perfil", referencedColumnName="idperfil")
      * })
      */
     private $perfil;
@@ -78,14 +77,13 @@ class Persona
      * @var \Posicionjugador
      * @ORM\ManyToOne(targetEntity="Posicionjugador")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="posicion", referencedColumnName="idposicion")
+     * @ORM\JoinColumn(name="posicion", referencedColumnName="idposicion")
      * })
      */
     private $posicion;
 
     /**
      * @var \Club
-     * @Assert\NotNull(message="Este campo no puede estar vacio")
      * @ORM\ManyToOne(targetEntity="Club")
      * @ORM\JoinColumns({
      * @ORM\JoinColumn(name="club", referencedColumnName="idclub")

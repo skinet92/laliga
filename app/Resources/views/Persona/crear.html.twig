@@ -18,20 +18,7 @@
             </div>
             <div class="container">
                 <form action="{{ path('persona_new') }}" method="post" id="frm-persona" novalidate>
-                    <div class="row">
-                        <div class="col-xs-6" >
-                            {{ form_label(form.perfil,'Perfil') }}
-                            {{ form_widget(form.perfil, {'attr': {'class': 'form-control','id': 'perfill'}}) }}
-                            <div class="help-block">{{ form_errors(form.perfil) }}</div>
-                        </div>
 
-                        <div class="col-xs-6" id="posicion" {#style="display: none"#}>
-                            {{ form_label(form.posicion,'Posición') }}
-                            {{ form_widget(form.posicion, {'attr': {'class': 'form-control ','id': 'posicionn'}}) }}
-                            <div class="help-block">{{ form_errors(form.posicion) }}</div>
-                        </div>
-
-                    </div>
                     {{ form_fields(form) }}
 
 
@@ -68,16 +55,24 @@
                       format: 'DD/MM/YYYY'
                   });
 
-                 /* $("#frm-provincia").validate({
-                      rules:{
-                          'provincia[nombre]':{
-                              required: true
+                  $("#persona_perfil").change(function () {
+                      var value = $(this).val();
+                      switch(value) {
+                          case('2')://Entrenador
+                              $("#posicion").fadeOut('400');
+                              $("#salario").show();
+                              break;
+                          case('3')://Canterano
+                              $("#salario").fadeOut('400');
+                              $("#posicion").show();
+                              break;
+                          default:
+                          {
+                              $("#posicion").show();
+                              $("#salario").show();
                           }
-                          },
-                      messages:{
-                          'cargo[nombrecargo]': "Este campo es requerido"
                       }
-              });*/
+                  });
           });
 
           </script>

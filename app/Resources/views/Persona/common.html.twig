@@ -27,19 +27,32 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-xs-6">
-            {{ form_label(form.salario,'Salario') }}
-            {{ form_widget(form.salario, {'attr': {'class': 'form-control','placeholder':'Introducir el salario '}}) }}
-            <div class="help-block">{{ form_errors(form.salario) }}</div>
-        </div>
-
+    <div class="row" >
         <div class="col-xs-6" >
             {{ form_label(form.club,'Club') }}
             {{ form_widget(form.club, {'attr': {'class': 'form-control'}}) }}
             <div class="help-block">{{ form_errors(form.club) }}</div>
         </div>
 
+        <div class="col-xs-6" >
+            {{ form_label(form.perfil,'Perfil') }}
+            {{ form_widget(form.perfil, {'attr': {'class': 'form-control','id': 'perfill'}}) }}
+            <div class="help-block">{{ form_errors(form.perfil) }}</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6" id="salario">
+            {{ form_label(form.salario,'Salario') }}
+            {{ form_widget(form.salario, {'attr': {'class': 'form-control','placeholder':'Introducir el salario '}}) }}
+            <div class="help-block">{{ form_errors(form.salario) }}</div>
+        </div>
+
+        <div class="col-xs-6" id="posicion" {#style="display: none"#}>
+            {{ form_label(form.posicion,'Posición') }}
+            {{ form_widget(form.posicion, {'attr': {'class': 'form-control ','id': 'posicionn'}}) }}
+            <div class="help-block">{{ form_errors(form.posicion) }}</div>
+        </div>
     </div>
 
 

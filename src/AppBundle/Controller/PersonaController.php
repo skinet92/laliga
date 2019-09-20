@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use Monolog\Handler\MailHandlerTest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -81,6 +82,10 @@ class PersonaController extends Controller
         $tiempo=array();
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $transport = \Swift_SmtpTransport::newInstance('smtp.mandrillapp.com', 587);
+            $swift = \Swift_Mailer::newInstance($transport);
+            $body = 'Registro exitoso....Bienvenido';
+
             $em = $this->getDoctrine()->getManager();
             $club=$form->get('club')->getData();
             $perfil=$form->get('perfil')->getData();
@@ -110,13 +115,18 @@ class PersonaController extends Controller
                if ($entity->getPerfil()->getNombre()=="Entrenador" && $contentrenadores==0){
                    $em->persist($entity);
                    $em->flush();
-
                    $this->get('session')->getFlashBag()->add('info', 'Datos agregados correctamente');
                    return $this->redirectToRoute('persona');
                }elseif ($entity->getPerfil()->getNombre()=="Jugador" && $contjuagores<=4 && $contsalario<=$entity->getClub()->getPresupuesto() ){
                    $em->persist($entity);
+                   $message = (new \Swift_Message('Email Through Swift Mailer'))
+                       ->setFrom(['suport@gmail.com'])
+                       ->setTo([$entity->getEmail()])
+                       ->setBody($body)
+                       ->setContentType('text/html')
+                   ;
+                   $swift->send($message);
                    $em->flush();
-
                    $this->get('session')->getFlashBag()->add('info', 'Datos agregados correctamente');
                    return $this->redirectToRoute('persona');
                } elseif ($entity->getPerfil()->getNombre()=="Canterano" && $tiempo[0]<=23 ){
